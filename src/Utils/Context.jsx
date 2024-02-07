@@ -5,7 +5,7 @@ import { auth } from './FirebaseConfig';
 const getUserAuth = createContext();
 
 export const ContextProvider = ({ children }) => {
-    const [TheUser, setTheUser] = useState('')
+    const [TheUser, setTheUser] = useState(null)
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {

@@ -1,11 +1,11 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import backgImage from "/pexels-yuri-manei-2690323 (1).jpg";
 import { getUserAuthenticate } from "../Utils/Context";
 import Modal from "../Mini-Components/Modal";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 import { db } from "../Utils/FirebaseConfig";
 
@@ -14,18 +14,32 @@ import { db } from "../Utils/FirebaseConfig";
 // }
 
 const SignUp = () => {
-  const { theUser, signUp } = getUserAuthenticate();
+  const {TheUser, signUp } = getUserAuthenticate();
   const navigate = useNavigate();
     const [Spinner, setSpinner] = useState(true);
     const [closeModal, setcloseModal] = useState(true)
   const [UsernameInput, setUsernameInput] = useState("");
   const [EmailInput, setEmailInput] = useState("");
   const [passwordInput, setpasswordInput] = useState("");
+  const [photoUrl, setphotoUrl] = useState('')
 
     function ModalClose() {
         setcloseModal(!closeModal)
         setSpinner(true)
-    }
+  }
+  // console.log(TheUser)
+  const getData = async () => {
+    const docRef = doc(db, "users", TheUser.uid);
+const docSnap = await getDoc(docRef);
+
+if (docSnap.exists()) {
+  console.log("Document data:", docSnap.data());
+} else {
+  // docSnap.data() will be undefined in this case
+  console.log("No such document!");
+}
+  }
+
     const signUpUser = async () => {
         
       if (UsernameInput !== '' && EmailInput  && passwordInput !== '') {
@@ -39,11 +53,12 @@ const SignUp = () => {
               uid: res.user.uid,
               UsernameInput,
               EmailInput,
-              passwordInput,
+            passwordInput,
           })
             console.log(res.user)
             console.log("user is signed up");
-            navigate("/home");
+            setSpinner(false)
+            // navigate("/home");
         } catch (error) {
             setcloseModal(false)
             console.error(error);
@@ -54,7 +69,7 @@ const SignUp = () => {
       }
    
   };
-  console.log(theUser)
+
   return (
       <div className="relative">
           <Modal closeModal={closeModal} ModalClose={ModalClose} />
@@ -82,7 +97,7 @@ const SignUp = () => {
               className="input input-bordered w-96 h-12 rounded-full max-w-xs bg-white"
             />
           </label>
-
+<button onClick={getData} className="bg-white">test</button>
           <label className="form-control w-full max-w-xs">
             <div className="label">
               <span className="label-text text-white">Email</span>
