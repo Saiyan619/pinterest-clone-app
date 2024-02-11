@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../Navbar';
 import { addDoc, collection, getDoc, getDocs, serverTimestamp } from 'firebase/firestore';
 import { getUserAuthenticate } from '../../Utils/Context';
@@ -8,32 +8,35 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 
 const CreatePostPage = () => {
-  const {User, postText, getPosts} = getUserAuthenticate()
+  const {User, postText, getPosts, getPins } = getUserAuthenticate()
   const [post, setPost] = useState('')
   const [imagePost, setImagePost] = useState('')
   // const [allPosts, setAllPosts] = useState([])
+useEffect(() => {
+  getPins()
+}, [])
 
 
   const postTextTest = async () => {
     
     try {
-      const imgPostRef = ref(storage, `avatar/${User.uid}`)
-      const snap = await uploadBytes(imgPostRef, imagePost)
-      const url = await getDownloadURL(ref(storage, snap.ref.fullPath))
-      // const postRef = collection(db, 'posts')
-      // await addDoc(postRef, {
-      //   photo:url
-      // })
-      // setImagePost(url)
+      const timestamp = new Date().getTime(); 
+      let url;
+      if (imagePost) {
+        const imgPostRef = ref(storage, `pins/${User.uid}/${timestamp}`);
+        const snap = await uploadBytes(imgPostRef, imagePost)
+        const getUrl = await getDownloadURL(ref(storage, snap.ref.fullPath))
+        url = getUrl
+}
+     
       await postText(url, post)
-      console.log('post added')
-    // await postText(imagePost)
+      setImagePost('')
+  
     } catch (error) {
       console.error(error)
     }
   
   }
-  console.log(imagePost)
 //   const postText = async (postInput) => {
 //     try {
 //       const postRef = collection(db, 'posts')
@@ -48,21 +51,21 @@ const CreatePostPage = () => {
 //     }
     
   // }
-  const getPostsByUserOne = async () => {
-    try {
-      const allPostRef = collection(db, 'posts')
-    const collSnap = await getDocs(allPostRef)
+  // const getPosts = async () => {
+  //   try {
+  //     const allPostRef = collection(db, 'posts')
+  //   const collSnap = await getDocs(allPostRef)
 
-    if (collSnap) {
-      const allPostsData = collSnap.docs.map((doc) => doc.data());
-      setAllPosts(allPostsData);
-      console.log(allPosts)
-    }
-    } catch (error) {
-      console.error(error)
-    }
+  //   if (collSnap) {
+  //     const allPostsData = collSnap.docs.map((doc) => doc.data());
+  //     setAllPosts(allPostsData);
+  //     console.log(allPosts)
+  //   }
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
     
-  }
+  // }
   
   return (
     <div>
@@ -70,7 +73,7 @@ const CreatePostPage = () => {
       <div>
         <h3 className='capitalize text-4xl'>Create post</h3>
         <input type="text" onChange={(e) => { setPost(e.target.value) }} placeholder='write post here' />
-        <input type="file" onChange={(e) => { setImagePost(e.target.files[0].name) }} placeholder='write post here' />
+        <input type="file" onChange={(e) => { setImagePost(e.target.files[0]) }} placeholder='write post here' />
         <button onClick={postTextTest}>post now</button>
         <button className='bg-black' onClick={getPosts}>post now</button>
         <img src="" alt="" />

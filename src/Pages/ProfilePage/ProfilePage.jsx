@@ -7,17 +7,22 @@ import { doc, getDoc, onSnapshot, query, updateDoc } from 'firebase/firestore';
 
 
 const ProfilePage = () => {
-  const { User, getUserData, logOut } = getUserAuthenticate();
+  const { User, getUserData, logOut, getCreatedUserPins } = getUserAuthenticate();
   const [profilePic, setprofilePic] = useState('')
   const [userDetails, setuserDetails] = useState()
   const [IsLoading, setIsLoading] = useState(true)
   const [picChange, setpicChange] = useState(true)
   const [picChangeSec, setpicChangeSec] = useState(false)
   // console.log(User)
-  function toggleImage() {
+  const getuserpins = async () => {
+    await getCreatedUserPins();
+  }
+  async function toggleImage() {
+  
     setpicChange(true)
     setpicChangeSec(false)
-  }function toggleImageSec() {
+  }
+  function toggleImageSec() {
     setpicChange(false)
     setpicChangeSec(true)
   }
@@ -82,7 +87,7 @@ useEffect(() => {
               <button className="btn btn-active btn-primary mt-5">Edit Profile</button>
         
         <div className='flex items-center gap-5 mt-10'>
-              <button onClick={toggleImage}>created</button>
+              <button onClick={getuserpins}>created</button>
                   <button onClick={toggleImageSec}>saved</button>
               </div>
              

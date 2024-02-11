@@ -2,14 +2,14 @@ import React, { createContext, useContext } from 'react';
 import { useState, useEffect } from 'react';
 import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from './FirebaseConfig';
-import { addDoc, collection, doc, getDoc, getDocs, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, where } from 'firebase/firestore';
 
 const getUserAuth = createContext();
 
 export const ContextProvider = ({ children }) => {
   const [User, setUser] = useState(null)
   const [allPosts, setAllPosts] = useState([])
-
+  const [createdPins, setCreatedPins] = useState([])
   
   // const getUserData = async () => {
   //   let data;  // Declare data variable outside the if statement
@@ -51,7 +51,7 @@ export const ContextProvider = ({ children }) => {
       try {
         const postRef = collection(db, 'posts')
         await addDoc(postRef, {
-        photo:postImg || "",
+        photo:postImg || '',
         postInput,
         category:'',
         createdAt: serverTimestamp(),
@@ -63,13 +63,48 @@ export const ContextProvider = ({ children }) => {
       }
       
   }
+
+  const getPins = () => {
+    const allPostRef = collection(db, 'posts');
+    const unsub = onSnapshot(allPostRef, (querySnapshot) => {
+      const pins = [];
+      querySnapshot.forEach((doc) => {
+        pins.push({ ...doc.data(), id: doc.id });
+        setAllPosts(pins)
+        console.log(allPosts)
+      })
+    });
+
+    return () => unsub(); 
+  }
+  const getCreatedUserPins = () => {
+       try {
+        const q = query(collection(db, "posts"), where("uid", "==", User.uid));
+        const unsub = onSnapshot(q, (querySnapshot) => {
+          const userPins = [];
+          querySnapshot.forEach((doc) => {
+            userPins.push({ ...doc.data(), id: doc.id });
+            console.log('done')
+            setCreatedPins(userPins)
+            console.log(createdPins)
+          })
+        });
+        return () => unsub(); 
+       } catch (error) {
+        console.error(error)
+       }
+      //  const allPostRef = collection(db, 'posts');
+  }
+         
+  
   
   const getPosts = async () => {
     try {
       const allPostRef = collection(db, 'posts')
     const collSnap = await getDocs(allPostRef)
 
-    if (collSnap) {
+      if (collSnap) {
+      
       const allPostsData = collSnap.docs.map((doc) => doc.data());
       setAllPosts(allPostsData);
       console.log(allPosts)
@@ -77,13 +112,24 @@ export const ContextProvider = ({ children }) => {
     } catch (error) {
       console.error(error)
     }
+
+    // const q = query(collection(db, "users"), where("uid", "!=", User1));
+    // const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    //   const users = [];
+    //   querySnapshot.forEach((doc) => {
+    //     users.push({...doc.data(), id:doc.id});
+    //     setUserList(users)
+    //   });
+    //   return unsubscribe()
+    // });
+        
     
   }
 
 
   return (
      
-      <getUserAuth.Provider value={{User, allPosts, postText, getPosts, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
+      <getUserAuth.Provider value={{User, allPosts, getCreatedUserPins, getPins, postText, getPosts, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
     )
 }
 
