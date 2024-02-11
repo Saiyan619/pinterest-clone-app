@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import backgImage from "/pexels-yuri-manei-2690323 (1).jpg";
@@ -11,7 +11,7 @@ import Modal from "../Mini-Components/Modal";
 // }
 
 const Login = () => {
-  const { theUser, logIn } = getUserAuthenticate();
+  const { User, getUserData, logIn } = getUserAuthenticate();
 
   const navigate = useNavigate();
 
@@ -25,6 +25,7 @@ const Login = () => {
     setSpinner(true);
   }
 
+
     const LoginUser = async () => {
         
         if (EmailInput !== "" && passwordInput !== "") {
@@ -32,6 +33,7 @@ const Login = () => {
         setSpinner(false);
         await logIn(EmailInput, passwordInput);
         console.log("logged in");
+        // console.log(user)
         navigate("/home");
       } catch (error) {
         setcloseModal(false);
@@ -43,6 +45,16 @@ const Login = () => {
       console.log("empty");
     }
   };
+  // useEffect(() => {
+  //   getData(); //If user Logged in this will print UserData If not will print User Not Found
+  // }, [currentUser])
+
+  // async function getData() {
+  //   await getUserData();
+  // }
+
+  // console.log(currentUser)
+
 
   return (
     <div className="relative">

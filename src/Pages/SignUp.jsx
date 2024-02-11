@@ -7,14 +7,14 @@ import { getUserAuthenticate } from "../Utils/Context";
 import Modal from "../Mini-Components/Modal";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
-import { db } from "../Utils/FirebaseConfig";
+import { auth, db } from "../Utils/FirebaseConfig";
 
 // function toggleSpinner() {
 //     setSpinner(!Spinner)
 // }
 
 const SignUp = () => {
-  const {TheUser, signUp } = getUserAuthenticate();
+  const {User, signUp } = getUserAuthenticate();
   const navigate = useNavigate();
     const [Spinner, setSpinner] = useState(true);
     const [closeModal, setcloseModal] = useState(true)
@@ -28,17 +28,17 @@ const SignUp = () => {
         setSpinner(true)
   }
   // console.log(TheUser)
-  const getData = async () => {
-    const docRef = doc(db, "users", TheUser.uid);
-const docSnap = await getDoc(docRef);
+//   const getData = async () => {
+//     const docRef = doc(db, "users", auth.currentUser.uid);
+// const docSnap = await getDoc(docRef);
 
-if (docSnap.exists()) {
-  console.log("Document data:", docSnap.data());
-} else {
-  // docSnap.data() will be undefined in this case
-  console.log("No such document!");
-}
-  }
+// if (docSnap.exists()) {
+//   console.log("Document data:", docSnap.data());
+// } else {
+//   // docSnap.data() will be undefined in this case
+//   console.log("No such document!");
+// }
+//   }
 
     const signUpUser = async () => {
         
@@ -58,7 +58,7 @@ if (docSnap.exists()) {
             console.log(res.user)
             console.log("user is signed up");
             setSpinner(false)
-            // navigate("/home");
+            navigate("/home");
         } catch (error) {
             setcloseModal(false)
             console.error(error);
@@ -69,6 +69,7 @@ if (docSnap.exists()) {
       }
    
   };
+  // console.log(currentUser)
 
   return (
       <div className="relative">
@@ -97,7 +98,7 @@ if (docSnap.exists()) {
               className="input input-bordered w-96 h-12 rounded-full max-w-xs bg-white"
             />
           </label>
-<button onClick={getData} className="bg-white">test</button>
+{/* <button onClick={getData} className="bg-white">test</button> */}
           <label className="form-control w-full max-w-xs">
             <div className="label">
               <span className="label-text text-white">Email</span>

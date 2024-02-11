@@ -4,18 +4,16 @@ import { useNavigate } from 'react-router-dom';
 import { getUserAuthenticate } from './Context'
 
 const PrivateRouter = ({ children }) => {
-    const { TheUser } = getUserAuthenticate();
+    const { currentUser } = getUserAuthenticate();
     const navigate = useNavigate();
     // useEffect(() => {
-       
+    //   if (!currentUser) {
+    //     return navigate('/');
+    //    }
     // }, [])
 
-  { if (TheUser) {
-    return children
-} else {
-    // console.log('hompage')
-    return navigate('/')
-}}
+  return children
+
 }
 
 export default PrivateRouter
