@@ -31,6 +31,6 @@ Work in Progress
 
 This documentation is an ongoing effort, and additional features are currently under development. The following areas are actively being worked on:
 
-    [List the features or improvements you are currently working on]
+The overall Ui of the Appliction using Tailwind Css and Daisy Ui 
 
 Feel free to check back for updates and improvements to the application!
