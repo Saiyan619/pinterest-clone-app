@@ -7,15 +7,15 @@ import { doc, getDoc, onSnapshot, query, updateDoc } from 'firebase/firestore';
 
 
 const ProfilePage = () => {
-  const { User, getUserData, logOut, getCreatedUserPins } = getUserAuthenticate();
+  const { User, getUserData, logOut, getCreatedUserPins, createdPins } = getUserAuthenticate();
   const [profilePic, setprofilePic] = useState('')
   const [userDetails, setuserDetails] = useState()
   const [IsLoading, setIsLoading] = useState(true)
   const [picChange, setpicChange] = useState(true)
   const [picChangeSec, setpicChangeSec] = useState(false)
   // console.log(User)
-  const getuserpins = async () => {
-    await getCreatedUserPins();
+  const getuserpins =  () => {
+     getCreatedUserPins();
   }
   async function toggleImage() {
   
@@ -85,10 +85,12 @@ useEffect(() => {
 
         </div> */}
               <button className="btn btn-active btn-primary mt-5">Edit Profile</button>
-        
+        {createdPins.map((items) => {
+          return <span>{items.postInput}</span>
+        })}
         <div className='flex items-center gap-5 mt-10'>
               <button onClick={getuserpins}>created</button>
-                  <button onClick={toggleImageSec}>saved</button>
+                  <button onClick={getuserpins}>saved</button>
               </div>
              
         <div className={`${picChange ? 'block' : 'hidden'}`}>

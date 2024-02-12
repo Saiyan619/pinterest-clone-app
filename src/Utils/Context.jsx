@@ -77,26 +77,25 @@ export const ContextProvider = ({ children }) => {
 
     return () => unsub(); 
   }
-  const getCreatedUserPins = () => {
+  const getCreatedUserPins = async() => {
        try {
-        const q = query(collection(db, "posts"), where("uid", "==", User.uid));
-        const unsub = onSnapshot(q, (querySnapshot) => {
-          const userPins = [];
-          querySnapshot.forEach((doc) => {
-            userPins.push({ ...doc.data(), id: doc.id });
-            console.log('done')
-            setCreatedPins(userPins)
-            console.log(createdPins)
-          })
-        });
-        return () => unsub(); 
+        const q = query(collection(db, "posts"), where("postedBy", "==", User.displayName));
+         //  const queryRef = await getDocs(q)
+         const querySnapshot = await getDocs(q);
+         let userCreatedPins = []
+querySnapshot.forEach((doc) => {
+  // doc.data() is never undefined for query doc snapshots
+  console.log(doc.id, " => ", doc.data());
+  
+  userCreatedPins.push(doc.data())
+  setCreatedPins(userCreatedPins)
+});
+         console.log(createdPins)
+       
        } catch (error) {
         console.error(error)
        }
-      //  const allPostRef = collection(db, 'posts');
   }
-         
-  
   
   const getPosts = async () => {
     try {
@@ -129,7 +128,7 @@ export const ContextProvider = ({ children }) => {
 
   return (
      
-      <getUserAuth.Provider value={{User, allPosts, getCreatedUserPins, getPins, postText, getPosts, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
+      <getUserAuth.Provider value={{User, allPosts, createdPins, getCreatedUserPins, getPins, postText, getPosts, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
     )
 }
 
