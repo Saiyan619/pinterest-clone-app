@@ -34,11 +34,14 @@ const Navbar = () => {
           </div>
           
           <div>
-              <div className="dropdown dropdown-end">
-      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-        <div className="w-10 rounded-full">
-          <img alt="Tailwind CSS Navbar component" src={User?.photoUrl} />
-        </div>
+              <div className="dropdown dropdown-end z-10">
+      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar z-10">
+        {/* <div className="w-10 rounded-full z-50"> */}
+              {/* <div className='bg-gray-300 w-12 h-12 rounded-full relative'>
+                <span className='text-lg absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>D</span>
+        </div> */}
+              <span className='bg-gray-300 w-full h-full text-lg z-50 rounded-full flex items-center justify-center uppercase'>d</span>
+        {/* </div> */}
       </div>
       <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
         <li>
@@ -50,7 +53,8 @@ const Navbar = () => {
         <li><a>Settings</a></li>
             <li><Dialog logoutUser={logoutUser} /></li>
       </ul>
-    </div></div>
+        </div>
+      </div>
     </div>
   )
 }
