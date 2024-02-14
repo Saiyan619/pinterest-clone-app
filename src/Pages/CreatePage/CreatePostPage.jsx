@@ -1,17 +1,16 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 import Navbar from '../Navbar';
-import { addDoc, collection, getDoc, getDocs, serverTimestamp } from 'firebase/firestore';
 import { getUserAuthenticate } from '../../Utils/Context';
 import { db, storage } from '../../Utils/FirebaseConfig';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 
 const CreatePostPage = () => {
-  const {User, postText, getPosts, getPins } = getUserAuthenticate()
+  const {User, postText, getPins } = getUserAuthenticate()
   const [post, setPost] = useState('')
   const [imagePost, setImagePost] = useState('')
-  // const [allPosts, setAllPosts] = useState([])
+
 useEffect(() => {
   getPins()
 }, [])
@@ -49,7 +48,6 @@ useEffect(() => {
             type="file"
             onChange={(e) => { setImagePost(e.target.files[0]) }}
     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-    // Other input attributes and event handlers go here
   />
   <div className="flex items-center justify-center">
     <svg

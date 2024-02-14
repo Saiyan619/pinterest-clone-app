@@ -8,18 +8,10 @@ const PinDetails = () => {
     let { id } = useParams();
     // console.log(id)
     // let param = useParams()
-
-  // Convert id to a number if needed
-//   let numberWithoutColon = parseInt(id, 10);
-    //   console.log(numberWithoutColon);
-    useEffect(() => {
-        console.log("Component mounted");
-      
-        getPostDetails(id).then(() => {
-          console.log("Updated pinDetails:", pinDetails);
-        });
-      
-      }, []); // Empty dependency array to run the effect only once on mount
+    
+    useEffect(() => {      
+        getPostDetails(id)
+      }, []); 
       
     
 

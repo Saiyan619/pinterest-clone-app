@@ -5,7 +5,7 @@ import { getUserAuthenticate } from '../../Utils/Context';
 import Pin from './Pin';
 
 const Homepage = () => {
-  const { User, getPosts, allPosts, getPins } = getUserAuthenticate()
+  const { User, getPins } = getUserAuthenticate()
   useEffect(() => {
     getPins();
   }, [])

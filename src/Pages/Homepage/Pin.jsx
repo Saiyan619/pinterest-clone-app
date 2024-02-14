@@ -5,10 +5,8 @@ import Masonry, {ResponsiveMasonry} from "react-responsive-masonry"
 import { HiDotsHorizontal } from 'react-icons/hi';
 
 const Pin = () => {
-  const { allPosts, selectPost, getPostDetails } = getUserAuthenticate();
+  const { allPosts } = getUserAuthenticate();
   
-{/* <Link to={card.media_type === 'movie' ? `movieDetails/:${card.id}` :  `searchDetails/:${card.id}` }>check</Link> */}
-
   return (
     <ResponsiveMasonry  columnsCountBreakPoints={{350: 2, 750: 2, 900: 3}}>
       <Masonry>

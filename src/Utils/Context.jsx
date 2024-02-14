@@ -12,21 +12,8 @@ export const ContextProvider = ({ children }) => {
   const [createdPins, setCreatedPins] = useState([])
   const [pinDetails, setPinDetails] = useState([])
   
-  // const getUserData = async () => {
-  //   let data;  // Declare data variable outside the if statement
-  //   if(auth.currentUser) {
-  //     console.log("User: ",auth.currentUser );
-  //     const userRef = doc(db, "users", auth.currentUser?.uid);
-  //     const data = await getDoc(userRef);
-  //     if(!data.exists()) console.log("Not Found");
-  //     else console.log("User Data Found: ", data.data());
-  //   }else console.log("User Not Found");
-  //   }
-  
     const signUp = async ( email, password) => {
        return await (createUserWithEmailAndPassword(auth, email, password))
-      // return signUpResult.user
-      
     }
 
     const logIn = async(email, password) => {
@@ -38,8 +25,7 @@ export const ContextProvider = ({ children }) => {
       return  signOut(auth)
   }
   
-  
-
+  // Tracks when a user is logged in or not
     useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
    setUser(user)
@@ -48,9 +34,12 @@ export const ContextProvider = ({ children }) => {
     return () => unsubscribe();    
     }, [])
   
+  // For giving my docs a random id (still gunna find a better way of getting a random id, but that won't be necessary since im using addoc for the mean time)
     const currentTimestamp = Math.floor(new Date().getTime() / 1000);
     const formattedTimestamp = new Date(currentTimestamp * 1000).toLocaleString();
   // const pinId = currentTimestamp;
+
+  // FUNCTION:For Posting .. used in the CreatePostPage Component
     const postText = async (postImg, postInput, category) => {
       try {
         const postRef = collection(db, 'posts')
@@ -70,6 +59,7 @@ export const ContextProvider = ({ children }) => {
       
   }
 
+  // FUNCTION:For getting all posts to be displayed on the FYP... Used in the Homepage component
   const getPins = () => {
     const allPostRef = collection(db, 'posts');
     const unsub = onSnapshot(allPostRef, (querySnapshot) => {
@@ -83,14 +73,14 @@ export const ContextProvider = ({ children }) => {
 
     return () => unsub(); 
   }
+
+  // FUNCTION:For getting the pin posted/created by the current user... Used in the profile page
   const getCreatedUserPins = async() => {
        try {
         const q = query(collection(db, "posts"), where("postedBy", "==", User.displayName));
-         //  const queryRef = await getDocs(q)
          const querySnapshot = await getDocs(q);
          let userCreatedPins = []
 querySnapshot.forEach((doc) => {
-  // doc.data() is never undefined for query doc snapshots
   console.log(doc.id, " => ", doc.data());
   
   userCreatedPins.push(doc.data())
@@ -103,27 +93,9 @@ querySnapshot.forEach((doc) => {
        }
   }
   
-  const getPosts = async () => {
-    try {
-      const allPostRef = collection(db, 'posts')
-    const collSnap = await getDocs(allPostRef)
 
-      if (collSnap) {
-      
-      const allPostsData = collSnap.docs.map((doc) => doc.data());
-      setAllPosts(allPostsData);
-      console.log(allPosts)
-    }
-    } catch (error) {
-      console.error(error)
-    }
-    
-  }
 
-  const selectPost = (id) => {
-    console.log(id)
-  }
-
+// FUNCTION:For getting the post details when clicked... Used in the pindetails component
   const getPostDetails = async (id) => {
     try {
       const docRef = doc(db, "posts", id);
@@ -149,7 +121,7 @@ querySnapshot.forEach((doc) => {
 
   return (
      
-      <getUserAuth.Provider value={{User, allPosts, createdPins, pinDetails, selectPost, getPostDetails, getCreatedUserPins, getPins, postText, getPosts, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
+      <getUserAuth.Provider value={{User, allPosts, createdPins, pinDetails, getPostDetails, getCreatedUserPins, getPins, postText, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
     )
 }
 
