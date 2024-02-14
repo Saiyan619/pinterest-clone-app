@@ -10,6 +10,7 @@ export const ContextProvider = ({ children }) => {
   const [User, setUser] = useState(null)
   const [allPosts, setAllPosts] = useState([])
   const [createdPins, setCreatedPins] = useState([])
+  const [pinDetails, setPinDetails] = useState([])
   
   // const getUserData = async () => {
   //   let data;  // Declare data variable outside the if statement
@@ -47,14 +48,19 @@ export const ContextProvider = ({ children }) => {
     return () => unsubscribe();    
     }, [])
   
+    const currentTimestamp = Math.floor(new Date().getTime() / 1000);
+    const formattedTimestamp = new Date(currentTimestamp * 1000).toLocaleString();
+  // const pinId = currentTimestamp;
     const postText = async (postImg, postInput, category) => {
       try {
         const postRef = collection(db, 'posts')
         await addDoc(postRef, {
+          id: id,
+          // profilePhoto:User.photoURL,
         photo:postImg || '',
         postInput,
         category:'',
-        createdAt: serverTimestamp(),
+        createdAt: formattedTimestamp,
         postedBy:User.displayName
       })
         console.log('posted')
@@ -111,24 +117,39 @@ querySnapshot.forEach((doc) => {
     } catch (error) {
       console.error(error)
     }
-
-    // const q = query(collection(db, "users"), where("uid", "!=", User1));
-    // const unsubscribe = onSnapshot(q, (querySnapshot) => {
-    //   const users = [];
-    //   querySnapshot.forEach((doc) => {
-    //     users.push({...doc.data(), id:doc.id});
-    //     setUserList(users)
-    //   });
-    //   return unsubscribe()
-    // });
-        
     
   }
+
+  const selectPost = (id) => {
+    console.log(id)
+  }
+
+  const getPostDetails = async (id) => {
+    try {
+      const docRef = doc(db, "posts", id);
+      const docSnapshot = await getDoc(docRef);
+  
+      if (docSnapshot.exists()) {
+        const pinDets = docSnapshot.data();
+        setPinDetails(pinDets);
+  
+        // Log pinDetails after the state has been updated
+        console.log("pinDetails immediately after setPinDetails:", pinDetails);
+      } else {
+        console.log("Document not found");
+      }
+  
+    } catch (error) {
+      console.error("Error fetching document:", error);
+    }
+  };
+  
+  
 
 
   return (
      
-      <getUserAuth.Provider value={{User, allPosts, createdPins, getCreatedUserPins, getPins, postText, getPosts, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
+      <getUserAuth.Provider value={{User, allPosts, createdPins, pinDetails, selectPost, getPostDetails, getCreatedUserPins, getPins, postText, getPosts, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
     )
 }
 

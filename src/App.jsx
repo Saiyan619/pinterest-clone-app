@@ -7,6 +7,7 @@ import Homepage from './Pages/Homepage/Homepage';
 import PrivateRouter from './Utils/PrivateRouter';
 import ProfilePage from './Pages/ProfilePage/ProfilePage';
 import CreatePostPage from './Pages/CreatePage/CreatePostPage';
+import PinDetails from './Pages/PinDetails/PinDetails';
 
 function App() {
 
@@ -19,7 +20,8 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/profile' element={<ProfilePage />} />
           <Route path='/createPin' element={<CreatePostPage />} />
-          <Route path='/home' element={<PrivateRouter> <Homepage /> </PrivateRouter>} />
+            <Route path='/home' element={<PrivateRouter> <Homepage /> </PrivateRouter>} />
+            <Route path='/home/pindetails/:id' element={<PinDetails />} />
         </Routes>
      
       </ContextProvider>

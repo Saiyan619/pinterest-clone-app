@@ -1,18 +1,22 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { getUserAuthenticate } from '../../Utils/Context';
 import Masonry, {ResponsiveMasonry} from "react-responsive-masonry"
 import { HiDotsHorizontal } from 'react-icons/hi';
 
-const Card = () => {
-  const { allPosts } = getUserAuthenticate();
+const Pin = () => {
+  const { allPosts, selectPost, getPostDetails } = getUserAuthenticate();
   
+{/* <Link to={card.media_type === 'movie' ? `movieDetails/:${card.id}` :  `searchDetails/:${card.id}` }>check</Link> */}
 
   return (
     <ResponsiveMasonry  columnsCountBreakPoints={{350: 2, 750: 2, 900: 3}}>
       <Masonry>
       {allPosts.map((item, index) => (
         <div key={index} className="masonry-item mx-1 my-0 md:my-2 relative">
-          <img className="w-full rounded-lg" src={item.photo} alt="pin" />
+         <Link to={`/home/pindetails/${item.id}`}>
+            <img className="w-full rounded-lg" src={item.photo} alt="pin" />
+            </Link>
           {/* <button className="absolute hidden top-2 right-2 btn btn-active bg-red-600 text-white text-lg rounded-full border-none md:block">Save</button> */}
           <button className="btn bg-red-600 text-white text-lg rounded-full absolute hidden md:block top-2 right-2 border-none">
   <span className="loading loading-spinner"></span>
@@ -33,4 +37,4 @@ const Card = () => {
   );
 };
 
-export default Card;
+export default Pin;
