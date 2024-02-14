@@ -10,13 +10,18 @@ const CreatePostPage = () => {
   const {User, postText, getPins } = getUserAuthenticate()
   const [post, setPost] = useState('')
   const [imagePost, setImagePost] = useState('')
+  const [selectedOption, setselectedOption] = useState('')
 
-useEffect(() => {
-  getPins()
-}, [])
+  function handleSelectedOption(e) {
+    setselectedOption(e.target.value)
+    console.log(selectedOption)
+  }
+// useEffect(() => {
+//   getPins()
+// }, [])
 
 
-  const postTextTest = async () => {
+  const postTextAndImage = async () => {
     
     try {
       const timestamp = new Date().getTime(); 
@@ -28,7 +33,7 @@ useEffect(() => {
         url = getUrl
 }
      
-      await postText(url, post)
+      await postText(url, post, selectedOption)
       setImagePost('')
   
     } catch (error) {
@@ -36,7 +41,7 @@ useEffect(() => {
     }
   
   }
-
+console.log(selectedOption)
   
   return (
     <div>
@@ -75,15 +80,15 @@ useEffect(() => {
         
 
         <div className='flex flex-col gap-4 mt-4 sm:flex-row'>
-        <select className="select select-bordered w-full max-w-xs">
-  <option disabled selected>Pick a Category</option>
-  <option>People</option>
-  <option>Animal</option>
-  <option>Things</option>
+        <select value={selectedOption} onChange={handleSelectedOption} className="select select-bordered w-full max-w-xs">
+  <option selected disabled>Pick a Category</option>
+  <option value='People'>People</option>
+  <option value='Animal'>Animal</option>
+  <option value='Things'>Things</option>
 </select>
 <input type="text"  onChange={(e) => { setPost(e.target.value) }} placeholder="write Caption here" className="input input-bordered w-full max-w-xs" />
         </div>
-        <button onClick={postTextTest} className="btn btn-active btn-primary mt-5">Post</button>
+        <button onClick={postTextAndImage} className="btn btn-active btn-primary mt-5">Post</button>
 
         {/* <button className='bg-black' onClick={getPosts}>post now</button> */}
           </div>

@@ -17,7 +17,7 @@ const Pin = () => {
             </Link>
           {/* <button className="absolute hidden top-2 right-2 btn btn-active bg-red-600 text-white text-lg rounded-full border-none md:block">Save</button> */}
           <button className="btn bg-red-600 text-white text-lg rounded-full absolute hidden md:block top-2 right-2 border-none">
-  <span className="loading loading-spinner"></span>
+  <span className="loading-spinner"></span>
   Save
 </button>
           <details className="dropdown">

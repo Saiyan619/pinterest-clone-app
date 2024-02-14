@@ -11,6 +11,7 @@ export const ContextProvider = ({ children }) => {
   const [allPosts, setAllPosts] = useState([])
   const [createdPins, setCreatedPins] = useState([])
   const [pinDetails, setPinDetails] = useState([])
+  const [similarPosts, setsimilarPosts] = useState([])
   
     const signUp = async ( email, password) => {
        return await (createUserWithEmailAndPassword(auth, email, password))
@@ -44,11 +45,10 @@ export const ContextProvider = ({ children }) => {
       try {
         const postRef = collection(db, 'posts')
         await addDoc(postRef, {
-          id: id,
-          // profilePhoto:User.photoURL,
+          profilePhoto:User.photoURL,
         photo:postImg || '',
         postInput,
-        category:'',
+        category,
         createdAt: formattedTimestamp,
         postedBy:User.displayName
       })
@@ -93,6 +93,26 @@ querySnapshot.forEach((doc) => {
        }
   }
   
+  const getSimilarPins = async (category) => {
+       try {
+        if (category) {
+          const q = query(collection(db, 'posts'), where('category', '==', category));
+          const querySnapshot = await getDocs(q);
+    
+          let userSimilarPins = [];
+          querySnapshot.forEach((doc) => {
+            console.log(doc.id, ' => ', doc.data());
+            userSimilarPins.push(doc.data());
+          });
+  setsimilarPosts(userSimilarPins)
+};
+         console.log(similarPosts)
+       
+       } catch (error) {
+        console.error(error)
+       }
+  }
+  
 
 
 // FUNCTION:For getting the post details when clicked... Used in the pindetails component
@@ -106,7 +126,6 @@ querySnapshot.forEach((doc) => {
         setPinDetails(pinDets);
   
         // Log pinDetails after the state has been updated
-        console.log("pinDetails immediately after setPinDetails:", pinDetails);
       } else {
         console.log("Document not found");
       }
@@ -121,7 +140,7 @@ querySnapshot.forEach((doc) => {
 
   return (
      
-      <getUserAuth.Provider value={{User, allPosts, createdPins, pinDetails, getPostDetails, getCreatedUserPins, getPins, postText, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
+      <getUserAuth.Provider value={{User, allPosts, createdPins, pinDetails, similarPosts, getSimilarPins, getPostDetails, getCreatedUserPins, getPins, postText, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
     )
 }
 

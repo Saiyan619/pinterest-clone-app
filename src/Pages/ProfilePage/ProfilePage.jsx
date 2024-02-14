@@ -14,18 +14,21 @@ const ProfilePage = () => {
   const [picChange, setpicChange] = useState(true)
   const [picChangeSec, setpicChangeSec] = useState(false)
   // console.log(User)
-  const getuserpins =  () => {
-     getCreatedUserPins();
-  }
+ 
   async function toggleImage() {
-  
+    getCreatedUserPins();
     setpicChange(true)
     setpicChangeSec(false)
   }
   function toggleImageSec() {
+    // getCreatedUserPins();
     setpicChange(false)
     setpicChangeSec(true)
   }
+  useEffect(() => {
+    getCreatedUserPins();
+  }, [User])
+  
 useEffect(() => {
   const fetchData = async () => {
     if (User) {
@@ -85,16 +88,17 @@ useEffect(() => {
 
         </div> */}
               <button className="btn btn-active btn-primary mt-5">Edit Profile</button>
-        {createdPins.map((items) => {
-          return <span>{items.postInput}</span>
-        })}
+        
         <div className='flex items-center gap-5 mt-10'>
-              <button onClick={getuserpins}>created</button>
-                  <button onClick={getuserpins}>saved</button>
+              <button onClick={toggleImage}>created</button>
+                  <button onClick={toggleImageSec}>saved</button>
               </div>
              
-        <div className={`${picChange ? 'block' : 'hidden'}`}>
-          <img className='w-60' src="./pexels-brian-jr-asare-13221799 (1).jpg" alt="test" />
+        <div className={`${picChange ? 'block' : 'hidden'} flex justify-center flex-wrap gap-5 mt-12 p-4`}>
+          {/* <img  src="./pexels-brian-jr-asare-13221799 (1).jpg" alt="test" /> */}
+          {createdPins.map((items) => {
+          return <img className='w-60 rounded-xl object-cover' src={items.photo} alt="image" />
+        })}
         </div>
 
       <div className={`${picChangeSec ? 'block' : 'hidden'}`}>

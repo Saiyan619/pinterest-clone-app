@@ -1,8 +1,8 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
-import Dialog from '../Mini-Components/Dialog'
-import { getUserAuthenticate } from '../Utils/Context'
+import Dialog from '../../Mini-Components/Dialog'
+import { getUserAuthenticate } from '../../Utils/Context'
 
 const Navbar = () => {
   const { logOut, User } = getUserAuthenticate();
@@ -21,12 +21,12 @@ const Navbar = () => {
     <div className='p-2 flex items-center justify-between'>
           <div className='border border-solid border-black rounded-lg sm:border-0'>
             <Link to='/home'><span className='hidden transition-all duration-1000 hover:transition-all sm:duration-500 hover:bg-black hover:text-white p-4 rounded-full sm:block'>Home</span></Link>
-            <Link to='/home'><img className='w-12 block sm:hidden' src="./icons8-home(1).svg" alt="home" /></Link>
+            <Link to='/home'><img className='w-12 block sm:hidden' src="/icons8-home(1).svg" alt="home" /></Link>
           </div>
           
           <div>
           <Link to='/createPin'> <span className='hidden transition-all duration-1000 hover:transition-all sm:duration-500 hover:bg-black hover:text-white p-4 rounded-full sm:block'>Create</span></Link>
-          <Link to='/createPin'>  <img className='w-10 block sm:hidden' src="./icons8-add-50(2).png" alt="create" /></Link>
+          <Link to='/createPin'>  <img className='w-10 block sm:hidden' src="/icons8-add-50(2).png" alt="create" /></Link>
           </div>
           
           <div className='w-6/12 sm:w-9/12'>
@@ -46,8 +46,8 @@ const Navbar = () => {
           </Link> 
         </li>
         <li><a>Settings</a></li>
-            <li><Dialog logoutUser={logoutUser} /></li>
-      </ul>
+            <li><Dialog /></li>
+          </ul>
         </div>
       </div>
     </div>
