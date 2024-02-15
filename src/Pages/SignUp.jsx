@@ -27,18 +27,7 @@ const SignUp = () => {
         setcloseModal(!closeModal)
         setSpinner(true)
   }
-  // console.log(TheUser)
-//   const getData = async () => {
-//     const docRef = doc(db, "users", auth.currentUser.uid);
-// const docSnap = await getDoc(docRef);
-
-// if (docSnap.exists()) {
-//   console.log("Document data:", docSnap.data());
-// } else {
-//   // docSnap.data() will be undefined in this case
-//   console.log("No such document!");
-// }
-//   }
+  
 
     const signUpUser = async () => {
         

@@ -2,7 +2,7 @@ import React, { createContext, useContext } from 'react';
 import { useState, useEffect } from 'react';
 import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from './FirebaseConfig';
-import { addDoc, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, where } from 'firebase/firestore';
+import { addDoc, arrayUnion, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore';
 
 const getUserAuth = createContext();
 
@@ -12,9 +12,13 @@ export const ContextProvider = ({ children }) => {
   const [createdPins, setCreatedPins] = useState([])
   const [pinDetails, setPinDetails] = useState([])
   const [similarPosts, setsimilarPosts] = useState([])
+  const [savedPin, setsavedPin] = useState([])
   
-    const signUp = async ( email, password) => {
-       return await (createUserWithEmailAndPassword(auth, email, password))
+  const signUp = async (email, password) => {
+   await setDoc(doc(db, "userSaved", email),{
+      favMovies: [],
+  })
+     return  await (createUserWithEmailAndPassword(auth, email, password))
     }
 
     const logIn = async(email, password) => {
@@ -135,12 +139,37 @@ querySnapshot.forEach((doc) => {
     }
   };
   
+  const saveApin = async (Pin) => {
+    if (User) {
+      const userDoc = doc(db, "userSaved", User.email)
+      await updateDoc(userDoc, {
+        favMovies: arrayUnion({...Pin})
+      })
+      console.log('pin saved')
+    }
+    else if(!User) {
+      alert('Please Sign in or Log in to like a movie')
+    }
+  }
+
+  const getSavedPin = async () => {
+    
+    try {
+      onSnapshot(doc(db, "userSaved", `${User.email}`), (doc) => {
+        if (doc.data()) setsavedPin(doc.data().favMovies);
+      });
+    } catch (error) {
+      console.error('Error getting documents: ', error);
+    }
+    
+  }
+  
   
 
 
   return (
      
-      <getUserAuth.Provider value={{User, allPosts, createdPins, pinDetails, similarPosts, getSimilarPins, getPostDetails, getCreatedUserPins, getPins, postText, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
+      <getUserAuth.Provider value={{User, allPosts, createdPins, pinDetails, similarPosts, savedPin, getSavedPin, saveApin, getSimilarPins, getPostDetails, getCreatedUserPins, getPins, postText, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
     )
 }
 

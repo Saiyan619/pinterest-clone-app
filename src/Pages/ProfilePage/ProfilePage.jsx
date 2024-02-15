@@ -7,7 +7,7 @@ import { doc, getDoc, onSnapshot, query, updateDoc } from 'firebase/firestore';
 
 
 const ProfilePage = () => {
-  const { User, getUserData, logOut, getCreatedUserPins, createdPins } = getUserAuthenticate();
+  const { User, getUserData, logOut, getCreatedUserPins, createdPins, getSavedPin, savedPin } = getUserAuthenticate();
   const [profilePic, setprofilePic] = useState('')
   const [userDetails, setuserDetails] = useState()
   const [IsLoading, setIsLoading] = useState(true)
@@ -72,7 +72,8 @@ useEffect(() => {
 
   return (
    <div>
-          <Navbar />
+      <Navbar />
+      <button onClick={getSavedPin}>saved pins</button>
       <div className='flex flex-col items-center'>
         {userDetails?.image ?
         <img className='rounded-full w-44 h-44 object-cover m-auto' src={userDetails?.image} alt="" /> :
@@ -102,7 +103,10 @@ useEffect(() => {
         </div>
 
       <div className={`${picChangeSec ? 'block' : 'hidden'}`}>
-        <img className='w-60' src="./pexels-yuri-manei-2690323 (1).jpg" alt="test" />
+          {/* <img className='w-60' src="./pexels-yuri-manei-2690323 (1).jpg" alt="test" /> */}
+          {savedPin.map((items, index) => {
+            return <div key={index}><img src={items.photo} alt="image" /></div>
+          })}
         </div>
           </div>
     </div>

@@ -5,7 +5,7 @@ import Masonry, {ResponsiveMasonry} from "react-responsive-masonry"
 import { HiDotsHorizontal } from 'react-icons/hi';
 
 const Pin = () => {
-  const { allPosts } = getUserAuthenticate();
+  const { allPosts, saveApin } = getUserAuthenticate();
   
   return (
     <ResponsiveMasonry  columnsCountBreakPoints={{350: 2, 750: 2, 900: 3}}>
@@ -16,7 +16,7 @@ const Pin = () => {
             <img className="w-full rounded-lg" src={item.photo} alt="pin" />
             </Link>
           {/* <button className="absolute hidden top-2 right-2 btn btn-active bg-red-600 text-white text-lg rounded-full border-none md:block">Save</button> */}
-          <button className="btn bg-red-600 text-white text-lg rounded-full absolute hidden md:block top-2 right-2 border-none">
+          <button onClick={() => saveApin(item)} className="btn bg-red-600 text-white text-lg rounded-full absolute hidden md:block top-2 right-2 border-none">
   <span className="loading-spinner"></span>
   Save
 </button>
