@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from '../Navbar';
+import { Link } from 'react-router-dom';
 import { getUserAuthenticate } from '../../Utils/Context';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { auth, db, storage } from '../../Utils/FirebaseConfig';
@@ -21,13 +22,14 @@ const ProfilePage = () => {
     setpicChangeSec(false)
   }
   function toggleImageSec() {
-    // getCreatedUserPins();
+    getSavedPin();
     setpicChange(false)
     setpicChangeSec(true)
   }
   useEffect(() => {
     getCreatedUserPins();
-  }, [User])
+    getSavedPin();
+  }, [])
   
 useEffect(() => {
   const fetchData = async () => {
@@ -73,7 +75,6 @@ useEffect(() => {
   return (
    <div>
       <Navbar />
-      <button onClick={getSavedPin}>saved pins</button>
       <div className='flex flex-col items-center'>
         {userDetails?.image ?
         <img className='rounded-full w-44 h-44 object-cover m-auto' src={userDetails?.image} alt="" /> :
@@ -88,7 +89,7 @@ useEffect(() => {
                   <button onClick={uploadProfileImage}>created</button>
 
         </div> */}
-              <button className="btn btn-active btn-primary mt-5">Edit Profile</button>
+            <Link to='/editProfile'><button className="btn btn-active btn-primary mt-5">Edit Profile</button></Link>
         
         <div className='flex items-center gap-5 mt-10'>
               <button onClick={toggleImage}>created</button>
@@ -102,10 +103,10 @@ useEffect(() => {
         })}
         </div>
 
-      <div className={`${picChangeSec ? 'block' : 'hidden'}`}>
+      <div className={`${picChangeSec ? 'block' : 'hidden'} flex justify-center flex-wrap gap-5 mt-12 p-4`}>
           {/* <img className='w-60' src="./pexels-yuri-manei-2690323 (1).jpg" alt="test" /> */}
           {savedPin.map((items, index) => {
-            return <div key={index}><img src={items.photo} alt="image" /></div>
+            return <img className='w-60 rounded-xl object-cover' src={items.photo} alt="image" />
           })}
         </div>
           </div>

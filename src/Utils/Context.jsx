@@ -158,6 +158,7 @@ querySnapshot.forEach((doc) => {
       onSnapshot(doc(db, "userSaved", `${User.email}`), (doc) => {
         if (doc.data()) setsavedPin(doc.data().favMovies);
       });
+      console.log(savedPin)
     } catch (error) {
       console.error('Error getting documents: ', error);
     }

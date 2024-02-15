@@ -10,6 +10,7 @@ const Pin = () => {
   return (
     <ResponsiveMasonry  columnsCountBreakPoints={{350: 2, 750: 2, 900: 3}}>
       <Masonry>
+      {/* <div className="skeleton w-32 h-32"></div> */}
       {allPosts.map((item, index) => (
         <div key={index} className="masonry-item mx-1 my-0 md:my-2 relative">
          <Link to={`/home/pindetails/${item.id}`}>
@@ -23,7 +24,7 @@ const Pin = () => {
           <details className="dropdown">
   <summary className=" btn p-0 bg-transparent border-none shadow-none md:p-2 md:bg-inherit md:shadow"><HiDotsHorizontal className=" text-gray-500 text-2xl cursor-pointer" /></summary>
   <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
-    <li><a>Item 1</a></li>
+    <div onClick={() => saveApin(item)}><li><a>Save image</a></li></div>
     <li><a>Item 2</a></li>
   </ul>
 </details>
