@@ -20,9 +20,8 @@ const PinDetails = () => {
   // let param = useParams()
 
   useEffect(() => {
-    
     fetchData();
-  }, [User]);
+  }, []);
 
   useEffect(() => {
     getPostDetails(id);
@@ -47,7 +46,7 @@ const PinDetails = () => {
                     role="button"
                     className="btn btn-ghost btn-circle avatar z-10"
                   >
-                    <Link to={`/otheruserprofile/${pinDetails.postedBy}`}>
+                    <Link to={`/otheruserprofile/${pinDetails.userId}`}>
                       <img
                         className="rounded-full z-50 w-12 h-12 object-cover m-auto"
                         src={userDetails?.avatar}
@@ -59,11 +58,11 @@ const PinDetails = () => {
                   <div
                     tabIndex={0}
                     role="button"
-                    className="btn btn-ghost btn-circle avatar z-10 "
+                    className="btn btn-ghost btn-circle avatar "
                   >
-                    <Link to={`/otheruserprofile/${pinDetails.postedBy}`}>
-                      <span className=" bg-gray-300 w-60 h-60 text-lg z-50 rounded-full flex items-center justify-center uppercase">
-                        {pinDetails?.postedBy}
+                    <Link className=" relative bg-gray-400 w-20 h-20" to={`/otheruserprofile/${pinDetails.userId}`}>
+                      <span className="uppercase text-lg absolute top-2 left-4 ">
+                      {pinDetails?.postedBy?.[0] ?? ''}
                       </span>
                     </Link>
                   </div>

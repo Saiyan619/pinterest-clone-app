@@ -56,23 +56,24 @@ export const ContextProvider = ({ children }) => {
   
   const fetchOtherUserData = async (id) => {
     try {
-      // Create a query to get users with a specific age
-      const q = query(collection(db, 'users'), where('', '==', age));
+      if (User) {
+        const docRef = doc(db, 'users', id);
+        const docSnap = await getDoc(docRef);
   
-      // Get a snapshot of the query result
-      const querySnapshot = await getDoc(q);
-  
-      // Check if the document exists
-      if (querySnapshot.exists()) {
-        // Access the document data
-        const userData = querySnapshot.data();
-        console.log('User Data:', userData);
-      } else {
-        console.log('No user found with the specified age.');
+        if (docSnap.exists()) {
+          console.log(docSnap.data());
+        }
+        const q = query(collection(db, "posts"), where("userId", "==", id));
+         const querySnapshot = await getDocs(q);
+        //  let userCreatedPins = []
+querySnapshot.forEach((doc) => {
+  console.log(doc.id, " => ", doc.data());
+});
       }
     } catch (error) {
-      console.error('Error fetching user data:', error);
+      console.error(error)
     }
+    
   }
   
   
@@ -93,7 +94,8 @@ export const ContextProvider = ({ children }) => {
         postInput,
         category,
         createdAt: formattedTimestamp,
-        postedBy:userDetails?.UsernameInput
+          postedBy: userDetails?.UsernameInput,
+        userId:User.uid
       })
         console.log('posted')
       } catch (error) {
@@ -120,7 +122,7 @@ export const ContextProvider = ({ children }) => {
   // FUNCTION:For getting the pin posted/created by the current user... Used in the profile page
   const getCreatedUserPins = async() => {
        try {
-        const q = query(collection(db, "posts"), where("postedBy", "==", User.displayName));
+        const q = query(collection(db, "posts"), where("postedBy", "==", userDetails.UsernameInput));
          const querySnapshot = await getDocs(q);
          let userCreatedPins = []
 querySnapshot.forEach((doc) => {

@@ -8,7 +8,7 @@ const OtherUsersProfilePage = () => {
     console.log(id)
   return (
       <div>
-          <button onClick={fetchOtherUserData(id)} className='bg-black text-white p-4'>get profile</button>
+          <button onClick={()=>{fetchOtherUserData(id)}} className='bg-black text-white p-4'>get profile</button>
       OtherUsersProfilePage
 OtherUsersProfilePage
     </div>
