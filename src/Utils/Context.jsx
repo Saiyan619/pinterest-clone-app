@@ -8,15 +8,17 @@ const getUserAuth = createContext();
 
 export const ContextProvider = ({ children }) => {
   const [User, setUser] = useState(null)
+  const [userDetails, setuserDetails] = useState()
   const [allPosts, setAllPosts] = useState([])
   const [createdPins, setCreatedPins] = useState([])
   const [pinDetails, setPinDetails] = useState([])
   const [similarPosts, setsimilarPosts] = useState([])
-  const [savedPin, setsavedPin] = useState([])
+  const [savedPin, setsavedPin] = useState([]);
+  const [OtherUsers, setOtherUsers] = useState()
   
   const signUp = async (email, password) => {
    await setDoc(doc(db, "userSaved", email),{
-      favMovies: [],
+      savedPins: [],
   })
      return  await (createUserWithEmailAndPassword(auth, email, password))
     }
@@ -39,7 +41,41 @@ export const ContextProvider = ({ children }) => {
     return () => unsubscribe();    
     }, [])
   
+  // FUNCTION:used for fetching the details of the current user (profilePic, username)
+  // Remember to change this function name to fetchUserData
+    const fetchData = async () => {
+      if (User) {
+        const docRef = doc(db, 'users', User?.uid);
+        const docSnap = await getDoc(docRef);
+  
+        if (docSnap.exists()) {
+          setuserDetails(docSnap.data());
+        }
+      }
+  };
+  
+  const fetchOtherUserData = async () => {
+    try {
+      const docRef = doc(db, "users", id);
+      const docSnapshot = await getDoc(docRef);
+      
+      if (docSnapshot.exists()) {
+        const pinDets = docSnapshot.data();
+        setPinDetails(pinDets);
+  
+        // Log pinDetails after the state has been updated
+      } else {
+        console.log("Document not found");
+      }
+    } catch (error) {
+      
+    }
+  }
+  
+  
+  
   // For giving my docs a random id (still gunna find a better way of getting a random id, but that won't be necessary since im using addoc for the mean time)
+
     const currentTimestamp = Math.floor(new Date().getTime() / 1000);
     const formattedTimestamp = new Date(currentTimestamp * 1000).toLocaleString();
   // const pinId = currentTimestamp;
@@ -97,6 +133,7 @@ querySnapshot.forEach((doc) => {
        }
   }
   
+  // FUNCTION:Used in getting the simmilar posts/pins
   const getSimilarPins = async (category) => {
        try {
         if (category) {
@@ -139,11 +176,12 @@ querySnapshot.forEach((doc) => {
     }
   };
   
+  // FUNCTION:Used in saving a pin/post
   const saveApin = async (Pin) => {
     if (User) {
       const userDoc = doc(db, "userSaved", User.email)
       await updateDoc(userDoc, {
-        favMovies: arrayUnion({...Pin})
+        savedPins: arrayUnion({...Pin})
       })
       console.log('pin saved')
     }
@@ -152,11 +190,12 @@ querySnapshot.forEach((doc) => {
     }
   }
 
+  // FUNCTION:Used in getting/fetching the saved pin/posts
   const getSavedPin = async () => {
     
     try {
       onSnapshot(doc(db, "userSaved", `${User.email}`), (doc) => {
-        if (doc.data()) setsavedPin(doc.data().favMovies);
+        if (doc.data()) setsavedPin(doc.data().savedPins);
       });
       console.log(savedPin)
     } catch (error) {
@@ -168,9 +207,10 @@ querySnapshot.forEach((doc) => {
   
 
 
+
   return (
      
-      <getUserAuth.Provider value={{User, allPosts, createdPins, pinDetails, similarPosts, savedPin, getSavedPin, saveApin, getSimilarPins, getPostDetails, getCreatedUserPins, getPins, postText, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
+      <getUserAuth.Provider value={{User, userDetails, allPosts, createdPins, pinDetails, similarPosts, savedPin, fetchData, getSavedPin, saveApin, getSimilarPins, getPostDetails, getCreatedUserPins, getPins, postText, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
     )
 }
 

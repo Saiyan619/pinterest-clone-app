@@ -1,12 +1,18 @@
 import React from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import Dialog from '../Mini-Components/Dialog'
 import { getUserAuthenticate } from '../Utils/Context'
 
 const Navbar = () => {
-  const { logOut, User } = getUserAuthenticate();
+  const { logOut, User, userDetails, fetchData } = getUserAuthenticate();
   const navigate = useNavigate();
+  console.log(userDetails)
+  useEffect(() => {
+    fetchData()
+  }, [User])
+  
   const logoutUser = async() => {
     try {
             await logOut()
@@ -34,10 +40,16 @@ const Navbar = () => {
           </div>
           
           <div>
-              <div className="dropdown dropdown-end z-10">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar z-10">
-              <span className='bg-gray-300 w-full h-full text-lg z-50 rounded-full flex items-center justify-center uppercase'>d</span>
-      </div>
+        <div className="dropdown dropdown-end z-10">
+        {userDetails?.avatar ? (
+  <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar z-10">
+    <img className='rounded-full z-50 w-12 h-12 object-cover m-auto' src={userDetails?.avatar} alt="profilepic" />
+  </div>
+) : (
+  <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar z-10">
+    <span className='bg-gray-300 w-full h-full text-lg z-50 rounded-full flex items-center justify-center uppercase'>{userDetails?.UsernameInput[0]}</span>
+  </div>
+)}
       <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
         <li>
         <Link className="justify-between" to='/profile'>

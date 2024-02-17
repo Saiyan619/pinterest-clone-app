@@ -43,6 +43,7 @@ const SignUp = () => {
               UsernameInput,
               EmailInput,
             passwordInput,
+            avatar: ''
           })
             console.log(res.user)
             console.log("user is signed up");
