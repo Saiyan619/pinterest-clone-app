@@ -11,6 +11,7 @@ export const ContextProvider = ({ children }) => {
   const [userDetails, setuserDetails] = useState()
   const [allPosts, setAllPosts] = useState([])
   const [createdPins, setCreatedPins] = useState([])
+  const [otherUsercreatedPins, setOtherUserCreatedPins] = useState([])
   const [pinDetails, setPinDetails] = useState([])
   const [similarPosts, setsimilarPosts] = useState([])
   const [savedPin, setsavedPin] = useState([]);
@@ -57,18 +58,22 @@ export const ContextProvider = ({ children }) => {
   const fetchOtherUserData = async (id) => {
     try {
       if (User) {
-        const docRef = doc(db, 'users', id);
-        const docSnap = await getDoc(docRef);
-  
-        if (docSnap.exists()) {
-          console.log(docSnap.data());
-        }
         const q = query(collection(db, "posts"), where("userId", "==", id));
          const querySnapshot = await getDocs(q);
-        //  let userCreatedPins = []
+         let otherCreatedPins = []
 querySnapshot.forEach((doc) => {
   console.log(doc.id, " => ", doc.data());
+  otherCreatedPins.push(doc.data())
+  setOtherUserCreatedPins(otherCreatedPins)
+  console.log(otherUsercreatedPins)
 });
+const docRef = doc(db, 'users', id);
+const docSnapOther = await getDoc(docRef);
+
+if (docSnapOther.exists()) {
+  setOtherUsers(docSnapOther.data());
+  console.log(OtherUsers)
+}
       }
     } catch (error) {
       console.error(error)
@@ -215,7 +220,7 @@ querySnapshot.forEach((doc) => {
 
   return (
      
-      <getUserAuth.Provider value={{User, userDetails, allPosts, createdPins, pinDetails, similarPosts, savedPin, OtherUsers, fetchOtherUserData, fetchData, getSavedPin, saveApin, getSimilarPins, getPostDetails, getCreatedUserPins, getPins, postText, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
+      <getUserAuth.Provider value={{User, userDetails, allPosts, createdPins, pinDetails, similarPosts, savedPin, OtherUsers, otherUsercreatedPins, fetchOtherUserData, fetchData, getSavedPin, saveApin, getSimilarPins, getPostDetails, getCreatedUserPins, getPins, postText, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
     )
 }
 
