@@ -24,9 +24,7 @@ const OtherUsersProfilePage = () => {
         </div>}
               <span className='mt-5 font-bold text-4xl'>{User ? OtherUsers?.UsernameInput : 'User not found'}</span>
               <span className='mt-2 text-gray-600 text-sm'>{User ? OtherUsers?.EmailInput : 'User not found'}</span>
-        
-            {/* <Link to='/editProfile'><button className="btn btn-active btn-primary mt-5">Edit Profile</button></Link> */}
-        
+                
          <div className='flex items-center gap-5 mt-10'>
               <button >created</button>
               </div>
