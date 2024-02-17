@@ -7,7 +7,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import Navbar from "../Navbar";
 
 const EditProfile = () => {
-  const { User } = getUserAuthenticate();
+  const { User, userDetails } = getUserAuthenticate();
     const [newUsername, setnewUsername] = useState("");
     const [newProfileImage, setnewProfileImage] = useState("")
 
@@ -32,8 +32,8 @@ const EditProfile = () => {
           
       const updateRef = doc(db, "users", User.uid);
       await updateDoc(updateRef, {
-          UsernameInput: newUsername,
-          avatar: url
+          UsernameInput: newUsername === '' ? userDetails.UsernameInput : newUsername,
+          avatar: newProfileImage === '' ? userDetails?.avatar : url
       });
         console.log('updated')
     } catch (error) {

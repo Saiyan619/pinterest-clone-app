@@ -54,21 +54,24 @@ export const ContextProvider = ({ children }) => {
       }
   };
   
-  const fetchOtherUserData = async () => {
+  const fetchOtherUserData = async (id) => {
     try {
-      const docRef = doc(db, "users", id);
-      const docSnapshot = await getDoc(docRef);
-      
-      if (docSnapshot.exists()) {
-        const pinDets = docSnapshot.data();
-        setPinDetails(pinDets);
+      // Create a query to get users with a specific age
+      const q = query(collection(db, 'users'), where('', '==', age));
   
-        // Log pinDetails after the state has been updated
+      // Get a snapshot of the query result
+      const querySnapshot = await getDoc(q);
+  
+      // Check if the document exists
+      if (querySnapshot.exists()) {
+        // Access the document data
+        const userData = querySnapshot.data();
+        console.log('User Data:', userData);
       } else {
-        console.log("Document not found");
+        console.log('No user found with the specified age.');
       }
     } catch (error) {
-      
+      console.error('Error fetching user data:', error);
     }
   }
   
@@ -85,12 +88,12 @@ export const ContextProvider = ({ children }) => {
       try {
         const postRef = collection(db, 'posts')
         await addDoc(postRef, {
-          profilePhoto:User.photoURL,
+          profilePhoto:userDetails?.avatar,
         photo:postImg || '',
         postInput,
         category,
         createdAt: formattedTimestamp,
-        postedBy:User.displayName
+        postedBy:userDetails?.UsernameInput
       })
         console.log('posted')
       } catch (error) {
@@ -210,7 +213,7 @@ querySnapshot.forEach((doc) => {
 
   return (
      
-      <getUserAuth.Provider value={{User, userDetails, allPosts, createdPins, pinDetails, similarPosts, savedPin, fetchData, getSavedPin, saveApin, getSimilarPins, getPostDetails, getCreatedUserPins, getPins, postText, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
+      <getUserAuth.Provider value={{User, userDetails, allPosts, createdPins, pinDetails, similarPosts, savedPin, OtherUsers, fetchOtherUserData, fetchData, getSavedPin, saveApin, getSimilarPins, getPostDetails, getCreatedUserPins, getPins, postText, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
     )
 }
 

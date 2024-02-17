@@ -23,7 +23,7 @@ function App() {
           <Route path='/profile' element={<ProfilePage />} />
           <Route path='/createPin' element={<CreatePostPage />} />
           <Route path='/editProfile' element={<EditProfile />} />
-          <Route path='/otheruserprofile' element={<OtherUsersProfilePage />} />
+          <Route path='/otheruserprofile/:id' element={<OtherUsersProfilePage />} />
             <Route path='/home' element={<PrivateRouter> <Homepage /> </PrivateRouter>} />
             <Route path='/home/pindetails/:id' element={<PinDetails />} />
         </Routes>

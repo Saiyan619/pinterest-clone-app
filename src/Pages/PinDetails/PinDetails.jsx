@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect , useState} from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { getUserAuthenticate } from "../../Utils/Context";
@@ -20,6 +20,7 @@ const PinDetails = () => {
   // let param = useParams()
 
   useEffect(() => {
+    
     fetchData();
   }, [User]);
 
@@ -46,7 +47,7 @@ const PinDetails = () => {
                     role="button"
                     className="btn btn-ghost btn-circle avatar z-10"
                   >
-                    <Link to="/otheruserprofile">
+                    <Link to={`/otheruserprofile/${pinDetails.postedBy}`}>
                       <img
                         className="rounded-full z-50 w-12 h-12 object-cover m-auto"
                         src={userDetails?.avatar}
@@ -58,12 +59,11 @@ const PinDetails = () => {
                   <div
                     tabIndex={0}
                     role="button"
-                    className="btn btn-ghost btn-circle avatar z-10"
+                    className="btn btn-ghost btn-circle avatar z-10 "
                   >
-                    <Link to="/otheruserprofile">
-                      {" "}
-                      <span className="bg-gray-300 w-full h-full text-lg z-50 rounded-full flex items-center justify-center uppercase">
-                        {userDetails?.UsernameInput[0]}
+                    <Link to={`/otheruserprofile/${pinDetails.postedBy}`}>
+                      <span className=" bg-gray-300 w-60 h-60 text-lg z-50 rounded-full flex items-center justify-center uppercase">
+                        {pinDetails?.postedBy}
                       </span>
                     </Link>
                   </div>
