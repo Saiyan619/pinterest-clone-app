@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { getUserAuthenticate } from "../../Utils/Context";
 import Navbar from "./Navbar";
+import CommentSection from "./CommentSection";
 
 const PinDetails = () => {
   const {
@@ -84,7 +85,10 @@ const PinDetails = () => {
                 </span>
               </div>
             </div>
+            <CommentSection pinDetails={pinDetails} />
+
           </div>
+
         </div>
 
         <div className="mt-10">
