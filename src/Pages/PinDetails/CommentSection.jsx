@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { addDoc, collection, doc, getDocs, onSnapshot, query, where, orderBy, serverTimestamp } from 'firebase/firestore'
 import { getUserAuthenticate } from '../../Utils/Context'
 import { db } from '../../Utils/FirebaseConfig'
+import { FaTelegramPlane } from 'react-icons/fa';
 
 const CommentSection = ({pinDetails}) => {
     const [commentInput, setcommentInput] = useState('')
@@ -71,7 +72,7 @@ const CommentSection = ({pinDetails}) => {
     }
   return (
       <div className='flex flex-col'>
-          <h3>CommentSection</h3>
+          <h3 className='font-bold text-xl'>Comment</h3>
           {comment.map((msg) => {
               return <div className='flex'>
                   <div className='flex items-center mt-5'>
@@ -99,7 +100,8 @@ const CommentSection = ({pinDetails}) => {
                     <Link className="rounded-full relative bg-gray-400 w-10 h-10" to={`/otheruserprofile/${pinDetails.userId}`}>
                       <span className="uppercase text-lg absolute inset-0 flex items-center justify-center">
                       {pinDetails?.postedBy?.[0] ?? ''}
-                      </span>
+                                          </span>
+                                          
                     </Link>
                   </div>
                       )}
@@ -113,8 +115,12 @@ const CommentSection = ({pinDetails}) => {
                   
                   </div>
           })}
-          <input className='mt-5' onChange={(e) => { setcommentInput(e.target.value) }} type="text" placeholder='comment here' />
-          <button className='p-4 bg-black text-white' onClick={addComment}>add comment</button>
+          <div className=' bg-gray-300 rounded-full w-full h-16 mt-4'>
+              <div className=' flex items-center justify-between -mt-2'>
+          <input className=' mt-5 p-2 border-black bg-transparent rounded-full transparent outline-none w-full h-full' onChange={(e) => { setcommentInput(e.target.value) }} type="text" placeholder='comment here' />
+              <button className='p-4 bg-black text-white rounded-full mt-4' onClick={addComment}><FaTelegramPlane className='w-4 h-4' /></button>
+              </div>
+              </div>
     </div>
   )
 }
