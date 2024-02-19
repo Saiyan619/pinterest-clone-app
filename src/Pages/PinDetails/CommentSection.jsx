@@ -72,7 +72,8 @@ const CommentSection = ({pinDetails}) => {
     }
   return (
       <div className='flex flex-col'>
-          <h3 className='font-bold text-xl'>Comment</h3>
+      <h3 className='font-bold text-xl'>Comment</h3>
+      <div className='max-h-60 overflow-scroll'>
           {comment.map((msg) => {
               return <div className='flex'>
                   <div className='flex items-center mt-5'>
@@ -99,7 +100,7 @@ const CommentSection = ({pinDetails}) => {
                   >
                     <Link className="rounded-full relative bg-gray-400 w-10 h-10" to={`/otheruserprofile/${pinDetails.userId}`}>
                       <span className="uppercase text-lg absolute inset-0 flex items-center justify-center">
-                      {pinDetails?.postedBy?.[0] ?? ''}
+                      {msg?.commentBy?.[0] ?? ''}
                                           </span>
                                           
                     </Link>
@@ -115,6 +116,7 @@ const CommentSection = ({pinDetails}) => {
                   
                   </div>
           })}
+        </div>
           <div className=' bg-gray-300 rounded-full w-full h-16 mt-4'>
               <div className=' flex items-center justify-between -mt-2'>
           <input className=' mt-5 p-2 border-black bg-transparent rounded-full transparent outline-none w-full h-full' onChange={(e) => { setcommentInput(e.target.value) }} type="text" placeholder='comment here' />
