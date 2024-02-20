@@ -2,7 +2,8 @@ import React, { createContext, useContext } from 'react';
 import { useState, useEffect } from 'react';
 import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from './FirebaseConfig';
-import { addDoc, arrayUnion, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore';
+import { addDoc, arrayRemove, arrayUnion, collection, doc, getDoc, getDocs, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore';
+import toast, { Toaster } from 'react-hot-toast';
 
 const getUserAuth = createContext();
 
@@ -17,8 +18,10 @@ export const ContextProvider = ({ children }) => {
   const [savedPin, setsavedPin] = useState([]);
   const [OtherUsers, setOtherUsers] = useState()
   const [spinner, setSpinner] = useState(null)
-  const [toast, setToast] = useState(false)
+
   
+  // const notify = () => toast('Here is your toast.');
+
   const signUp = async (email, password) => {
    await setDoc(doc(db, "userSaved", email),{
       savedPins: [],
@@ -92,8 +95,14 @@ if (docSnapOther.exists()) {
   // const pinId = currentTimestamp;
 
   // FUNCTION:For Posting .. used in the CreatePostPage Component
-    const postText = async (postImg, postInput, category) => {
-      try {
+  const postPin = async (postImg, postInput, category) => {
+    
+   
+
+    try {
+      const notify = () => toast('Pin Posted 😁');
+      if (postImg) {
+        setSpinner(true)
         const postRef = collection(db, 'posts')
         await addDoc(postRef, {
           profilePhoto:userDetails?.avatar,
@@ -103,8 +112,16 @@ if (docSnapOther.exists()) {
         createdAt: formattedTimestamp,
           postedBy: userDetails?.UsernameInput,
         userId:User.uid
-      })
+        })
+        
         console.log('posted')
+        setSpinner(null)
+        notify()
+      }
+      else (
+        alert('Please Upload an image, note that the others might not be as necessary')
+      )
+      
       } catch (error) {
         console.error(error)
       }
@@ -191,20 +208,45 @@ querySnapshot.forEach((doc) => {
   // FUNCTION:Used in saving a pin/post
   const saveApin = async (Pin) => {
     setSpinner(Pin.id)
-    if (User) {
-      const userDoc = doc(db, "userSaved", User.email)
-      await updateDoc(userDoc, {
-        savedPins: arrayUnion({ ...Pin })
-      })
-      console.log('pin saved')
-      setToast(true)
-      setSpinner(null)
+    const notify = () => toast('Pin Saved 😁');
+    try {
+      if (User) {
+        const userDoc = doc(db, "userSaved", User.email)
+        await updateDoc(userDoc, {
+          savedPins: arrayUnion({ ...Pin })
+        })
+        console.log('pin saved')
+        
+        setSpinner(null)
+        notify()
+      }
+     
+      else {
+        alert('Please Sign in or Log in to save a pin')
+      }
+    } catch (error) {
+      console.error(error)
     }
    
-    else if(!User) {
-      alert('Please Sign in or Log in to like a movie')
+  }
+
+  const removePin = async (Pin) => {
+    const notify = () => toast('Pin Removed 😁');
+    try {
+      if (User) {
+        const userDoc = doc(db, "userSaved", User.email)
+        await updateDoc(userDoc, {
+          savedPins: arrayRemove(Pin)
+        });
+        console.log('pin removed')
+        notify()
+      } else {
+        console.log('cant remove typeerror!!!')
+      }
+    } catch (error) {
+      console.error(error)
     }
-    // setToast(false)
+    
   }
 
   // FUNCTION:Used in getting/fetching the saved pin/posts
@@ -227,7 +269,7 @@ querySnapshot.forEach((doc) => {
 
   return (
      
-      <getUserAuth.Provider value={{User, userDetails, allPosts, createdPins, pinDetails, similarPosts, savedPin, OtherUsers, otherUsercreatedPins, toast, spinner, fetchOtherUserData, fetchData, getSavedPin, saveApin, getSimilarPins, getPostDetails, getCreatedUserPins, getPins, postText, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
+      <getUserAuth.Provider value={{User, userDetails, allPosts, createdPins, pinDetails, similarPosts, savedPin, OtherUsers, otherUsercreatedPins, toast, spinner, removePin, fetchOtherUserData, fetchData, getSavedPin, saveApin, getSimilarPins, getPostDetails, getCreatedUserPins, getPins, postPin, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
     )
 }
 

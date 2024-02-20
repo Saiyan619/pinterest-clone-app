@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { getUserAuthenticate } from "../../Utils/Context";
 import Navbar from "./Navbar";
 import CommentSection from "./CommentSection";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+
 
 const PinDetails = () => {
   const {
@@ -39,7 +41,7 @@ const PinDetails = () => {
             <img src={pinDetails.photo} alt="image" />
           </figure>
           <div className="card-body">
-            <div className=" sm:p-4 md:p-10 flex items-center justify-between">
+            <div className=" sm:p-4 md:p-10 flex items-center justify-between gap-12">
               <div className="avatar placeholder flex items-center gap-2">
                 {userDetails?.avatar ? (
                   <div
@@ -92,16 +94,20 @@ const PinDetails = () => {
         </div>
 
         <div className="mt-10">
-          <span>More to Explore</span>
+          <span className="text-3xl">More to Explore</span>
 
-          <div className="flex flex-wrap gap-5">
+          <div className="mt-5">
+          <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 2, 900: 3 }}>
+      <Masonry>
             {similarPosts.map((items) => {
               return (
-                <div>
-                  <img className="w-80" src={items.photo} alt="" />
+                <div className="masonry-item mx-1 my-0 md:my-2 relative p-1">
+                  <img className="w-full rounded-xl" src={items.photo} alt="image" />
                 </div>
               );
             })}
+            </Masonry>
+            </ResponsiveMasonry>
           </div>
         </div>
       </div>
