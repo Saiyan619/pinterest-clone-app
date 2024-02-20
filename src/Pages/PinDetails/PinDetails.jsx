@@ -6,6 +6,8 @@ import { getUserAuthenticate } from "../../Utils/Context";
 import Navbar from "./Navbar";
 import CommentSection from "./CommentSection";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 
 const PinDetails = () => {
@@ -17,8 +19,10 @@ const PinDetails = () => {
     similarPosts,
     fetchData,
     userDetails,
+    saveApin
   } = getUserAuthenticate();
   let { id } = useParams();
+  // console.log(pinDetails)
   // console.log(id)
   // let param = useParams()
 
@@ -31,14 +35,18 @@ const PinDetails = () => {
     getSimilarPins(pinDetails.category);
   }, [User]);
 
+  const simpleFunction = () => {
+    console.log('Simple function called');
+  };
+
   return (
     <div>
       <Navbar />
       {/* <button onClick={getSimilarPins(pinDetails.category)}>test btn</button> */}
       <div className="p-4">
-        <div className="card lg:card-side bg-base-100 shadow-xl">
+        <div className="card lg:card-side bg-base-100 shadow-xl md:w-3/4 m-auto">
           <figure>
-            <img src={pinDetails.photo} alt="image" />
+            <img className="" src={pinDetails.photo} alt="image" />
           </figure>
           <div className="card-body">
             <div className=" sm:p-4 md:p-10 flex items-center justify-between gap-12">
@@ -72,10 +80,8 @@ const PinDetails = () => {
                 )}
                 <span>{pinDetails.postedBy}</span>
               </div>
-              <button className="btn bg-red-600 text-white text-lg rounded-full md:block top-2 right-2 border-none">
-                <span className="loading-spinner"></span>
-                Save
-              </button>
+              
+              <button onClick={()=>{saveApin(pinDetails)}} className="bg-red-500 rounded-2xl text-white w-30 p-4">save</button>
             </div>
             <div className="sm:mx-10">
               <div>
@@ -100,17 +106,19 @@ const PinDetails = () => {
           <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 2, 900: 3 }}>
       <Masonry>
             {similarPosts.map((items) => {
-              return (
-                <div className="masonry-item mx-1 my-0 md:my-2 relative p-1">
+              return  <div className="masonry-item mx-1 my-0 md:my-2 relative p-1">
+                  <Link to={`/home/pindetails/${items.id}`}>
                   <img className="w-full rounded-xl" src={items.photo} alt="image" />
+                  </Link>
                 </div>
-              );
+              
             })}
             </Masonry>
             </ResponsiveMasonry>
           </div>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };

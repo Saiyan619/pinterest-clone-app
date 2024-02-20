@@ -172,7 +172,7 @@ querySnapshot.forEach((doc) => {
           let userSimilarPins = [];
           querySnapshot.forEach((doc) => {
             console.log(doc.id, ' => ', doc.data());
-            userSimilarPins.push(doc.data());
+            userSimilarPins.push({ ...doc.data(), id: doc.id });
           });
   setsimilarPosts(userSimilarPins)
 };
@@ -185,7 +185,7 @@ querySnapshot.forEach((doc) => {
   
 
 
-// FUNCTION:For getting the post details when clicked... Used in the pindetails component
+// FUNCTION:For getting the post details when clicked and it is rendered on the postDetails page... Used in the pindetails component
   const getPostDetails = async (id) => {
     try {
       const docRef = doc(db, "posts", id);
@@ -207,6 +207,7 @@ querySnapshot.forEach((doc) => {
   
   // FUNCTION:Used in saving a pin/post
   const saveApin = async (Pin) => {
+    console.log('pinDetails:', Pin); 
     setSpinner(Pin.id)
     const notify = () => toast('Pin Saved 😁');
     try {
@@ -216,7 +217,6 @@ querySnapshot.forEach((doc) => {
           savedPins: arrayUnion({ ...Pin })
         })
         console.log('pin saved')
-        
         setSpinner(null)
         notify()
       }
