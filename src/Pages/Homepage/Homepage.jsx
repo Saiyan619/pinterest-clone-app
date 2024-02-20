@@ -10,12 +10,15 @@ const Homepage = () => {
     getPins();
   }, [])
   return (
+
     <div data-theme="light" className=''>
       <Navbar />
+      
       {/* <button onClick={getPosts}>get</button> */}
       <div className='p-2'>
         <Pin />
-        </div>
+      </div>
+      
     </div>
   )
 }

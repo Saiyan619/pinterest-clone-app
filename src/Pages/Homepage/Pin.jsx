@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { getUserAuthenticate } from '../../Utils/Context';
 import Masonry, {ResponsiveMasonry} from "react-responsive-masonry"
 import { HiDotsHorizontal } from 'react-icons/hi';
+import Toast from '../../Mini-Components/Toast';
 
 const Pin = () => {
-  const { allPosts, saveApin } = getUserAuthenticate();
+  const { allPosts, saveApin, toast, spinner } = getUserAuthenticate();
   
   return (
     <ResponsiveMasonry  columnsCountBreakPoints={{350: 2, 750: 2, 900: 3}}>
@@ -18,7 +19,7 @@ const Pin = () => {
             </Link>
           {/* <button className="absolute hidden top-2 right-2 btn btn-active bg-red-600 text-white text-lg rounded-full border-none md:block">Save</button> */}
           <button onClick={() => saveApin(item)} className="btn bg-red-600 text-white text-lg rounded-full absolute hidden md:block top-2 right-2 border-none">
-  <span className="loading-spinner"></span>
+  <span className={`${spinner === item.id ? 'loading' : ''} loading-spinner`}></span>
   Save
 </button>
           <details className="dropdown">
@@ -31,6 +32,7 @@ const Pin = () => {
           {/* <p className="text-sm font-medium text-gray-700">{item.postedBy}</p> */}
         </div>
       ))}
+        {toast ? <Toast /> : null}
         </Masonry>
       </ResponsiveMasonry>
   );

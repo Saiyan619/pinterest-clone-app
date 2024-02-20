@@ -16,6 +16,8 @@ export const ContextProvider = ({ children }) => {
   const [similarPosts, setsimilarPosts] = useState([])
   const [savedPin, setsavedPin] = useState([]);
   const [OtherUsers, setOtherUsers] = useState()
+  const [spinner, setSpinner] = useState(null)
+  const [toast, setToast] = useState(false)
   
   const signUp = async (email, password) => {
    await setDoc(doc(db, "userSaved", email),{
@@ -188,16 +190,21 @@ querySnapshot.forEach((doc) => {
   
   // FUNCTION:Used in saving a pin/post
   const saveApin = async (Pin) => {
+    setSpinner(Pin.id)
     if (User) {
       const userDoc = doc(db, "userSaved", User.email)
       await updateDoc(userDoc, {
-        savedPins: arrayUnion({...Pin})
+        savedPins: arrayUnion({ ...Pin })
       })
       console.log('pin saved')
+      setToast(true)
+      setSpinner(null)
     }
+   
     else if(!User) {
       alert('Please Sign in or Log in to like a movie')
     }
+    // setToast(false)
   }
 
   // FUNCTION:Used in getting/fetching the saved pin/posts
@@ -220,7 +227,7 @@ querySnapshot.forEach((doc) => {
 
   return (
      
-      <getUserAuth.Provider value={{User, userDetails, allPosts, createdPins, pinDetails, similarPosts, savedPin, OtherUsers, otherUsercreatedPins, fetchOtherUserData, fetchData, getSavedPin, saveApin, getSimilarPins, getPostDetails, getCreatedUserPins, getPins, postText, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
+      <getUserAuth.Provider value={{User, userDetails, allPosts, createdPins, pinDetails, similarPosts, savedPin, OtherUsers, otherUsercreatedPins, toast, spinner, fetchOtherUserData, fetchData, getSavedPin, saveApin, getSimilarPins, getPostDetails, getCreatedUserPins, getPins, postText, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
     )
 }
 
