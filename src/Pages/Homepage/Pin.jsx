@@ -6,16 +6,19 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { HiDotsHorizontal } from "react-icons/hi";
 import toast, { Toaster } from "react-hot-toast";
 
+
 const Pin = () => {
   const [hoveredPin, setHoveredPin] = useState(null);
   const { allPosts, saveApin, toast, spinner } = getUserAuthenticate();
   const notify = () => toast("Here is your toast.");
   
-
+//  const timeoutId = setTimeout(() => {
+//       // Set state or perform additional actions after the timeout
+//       setMyState('Updated state after setTimeout');
+//     }, 2000);
   return (
     <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 2, 900: 3 }}>
       <Masonry>
-        {/* <div className="skeleton w-32 h-32"></div> */}
         {allPosts.map((item, index) => (
           <div
             onMouseEnter={() => setHoveredPin(item.id)}
@@ -24,9 +27,10 @@ const Pin = () => {
             className="masonry-item mx-1 my-0 md:my-2 relative"
           >
             <Link to={`/home/pindetails/${item.id}`}>
-              <img className="w-full rounded-lg" src={item.photo} alt="pin" />
-            </Link>
-
+      
+        <img className="w-full rounded-lg" src={item.photo} alt="pin" />
+  
+    </Link>
             {hoveredPin === item.id && (
               <button
                 onClick={() => saveApin(item)}

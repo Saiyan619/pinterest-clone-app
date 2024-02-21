@@ -5,18 +5,24 @@ import { getUserAuthenticate } from '../../Utils/Context';
 import Pin from './Pin';
 
 const Homepage = () => {
-  const { User, getPins } = getUserAuthenticate()
+  const { User, getPins, loader, setLoader } = getUserAuthenticate()
   useEffect(() => {
+     const timeoutId = setTimeout(() => {
+       setLoader(false);
+  }, 5000);
     getPins();
+    return () => clearTimeout(timeoutId);
   }, [])
+  console.log(loader)
+
   return (
 
     <div data-theme="light" className=''>
       <Navbar />
       
-      {/* <button onClick={getPosts}>get</button> */}
       <div className='p-2'>
-        <Pin />
+       {loader ? <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center'> <span className="loading loading-ring loading-lg "></span><span>Your pins are loading Please Wait😎😋...</span></div> : <Pin />}
+        
       </div>
       
     </div>

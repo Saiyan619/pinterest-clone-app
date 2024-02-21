@@ -25,19 +25,23 @@ const PinDetails = () => {
   // console.log(pinDetails)
   // console.log(id)
   // let param = useParams()
-
+  const [trigger, setTrigger] = useState(true)
+  function toggleBoolean() {
+    setTrigger(!trigger)
+  }
+  const handleEffect = () => {
+    getPostDetails(id);
+    getSimilarPins(pinDetails.category);
+  };
   useEffect(() => {
     fetchData();
   }, []);
 
   useEffect(() => {
-    getPostDetails(id);
-    getSimilarPins(pinDetails.category);
-  }, [User]);
+      handleEffect()
+  }, [trigger]);
 
-  const simpleFunction = () => {
-    console.log('Simple function called');
-  };
+ 
 
   return (
     <div>
@@ -106,7 +110,11 @@ const PinDetails = () => {
           <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 2, 900: 3 }}>
       <Masonry>
             {similarPosts.map((items) => {
-              return  <div className="masonry-item mx-1 my-0 md:my-2 relative p-1">
+              return <div onClick={() => {
+                getPostDetails(id);
+                toggleBoolean()
+                // trigger ? false : true
+              }} className="masonry-item mx-1 my-0 md:my-2 relative p-1">
                   <Link to={`/home/pindetails/${items.id}`}>
                   <img className="w-full rounded-xl" src={items.photo} alt="image" />
                   </Link>

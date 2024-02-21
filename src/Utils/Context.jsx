@@ -17,7 +17,8 @@ export const ContextProvider = ({ children }) => {
   const [similarPosts, setsimilarPosts] = useState([])
   const [savedPin, setsavedPin] = useState([]);
   const [OtherUsers, setOtherUsers] = useState()
-  const [spinner, setSpinner] = useState(null)
+  const [spinner, setSpinner] = useState(null);
+  const [loader, setLoader] = useState(true);
 
   
   // const notify = () => toast('Here is your toast.');
@@ -194,7 +195,7 @@ querySnapshot.forEach((doc) => {
       if (docSnapshot.exists()) {
         const pinDets = docSnapshot.data();
         setPinDetails(pinDets);
-  
+        console.log('details shown')
         // Log pinDetails after the state has been updated
       } else {
         console.log("Document not found");
@@ -269,7 +270,7 @@ querySnapshot.forEach((doc) => {
 
   return (
      
-      <getUserAuth.Provider value={{User, userDetails, allPosts, createdPins, pinDetails, similarPosts, savedPin, OtherUsers, otherUsercreatedPins, toast, spinner, removePin, fetchOtherUserData, fetchData, getSavedPin, saveApin, getSimilarPins, getPostDetails, getCreatedUserPins, getPins, postPin, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
+      <getUserAuth.Provider value={{User, userDetails, allPosts, createdPins, pinDetails, similarPosts, savedPin, OtherUsers, otherUsercreatedPins, toast, spinner, loader, setLoader, removePin, fetchOtherUserData, fetchData, getSavedPin, saveApin, getSimilarPins, getPostDetails, getCreatedUserPins, getPins, postPin, logIn, logOut, signUp}}>{children}</getUserAuth.Provider>
     )
 }
 
