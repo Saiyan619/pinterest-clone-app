@@ -19,6 +19,7 @@ const Pin = () => {
   return (
     <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 2, 900: 3 }}>
       <Masonry>
+       
         {allPosts.map((item, index) => (
           <div
             onMouseEnter={() => setHoveredPin(item.id)}
@@ -61,7 +62,7 @@ const Pin = () => {
             </details>
           </div>
         ))}
-        <Toaster />
+          <Toaster />
       </Masonry>
     </ResponsiveMasonry>
   );

@@ -14,7 +14,7 @@ import OtherUsersProfilePage from './Pages/ProfilePage/OtherUsersProfilePage';
 function App() {
 
   return (
-    <div >
+    <div className='bg-white'>
        <BrowserRouter>
         <ContextProvider>
           <Routes>

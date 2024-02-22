@@ -60,8 +60,8 @@ const ProfilePage = () => {
              
         <div className={`${picChange ? 'block' : 'hidden'} flex justify-center items-center flex-wrap gap-5 mt-12 p-4`}>
           {createdPins.map((items) => {
-          return <div className=''>
-          <img className='w-80 rounded-xl object-cover' src={items.photo} alt="image" />
+          return <div className='md:w-1/4'>
+          <img className='w-full rounded-xl object-cover' src={items.photo} alt="image" />
           <details className="dropdown">
         <summary className=" btn p-0 bg-transparent border-none shadow-none md:p-2 md:bg-inherit md:shadow"><HiDotsHorizontal className=" text-gray-500 text-2xl cursor-pointer" /></summary>
         <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">

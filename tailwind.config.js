@@ -8,5 +8,8 @@ export default {
     extend: {},
   },
   plugins: [require("daisyui")],
-  daisyui: {themes:["light", "dark", "retro"]}
+  daisyui: {
+    darkTheme: "light",
+   },
+  // daisyui: {themes:["light", "dark", "retro"]}
 }
