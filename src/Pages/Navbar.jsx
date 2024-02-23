@@ -23,6 +23,10 @@ const Navbar = () => {
           }
         
   }
+
+  function notice() {
+    alert('The search feature is still in production. Come back later and check again')
+  }
   return (
     <div className='p-2 flex items-center justify-between'>
           <div className='border border-solid border-black rounded-lg sm:border-0'>
@@ -35,7 +39,7 @@ const Navbar = () => {
           <Link to='/createPin'>  <img className='w-10 block sm:hidden' src="./icons8-add-50(2).png" alt="create" /></Link>
           </div>
           
-          <div className='w-6/12 sm:w-9/12'>
+          <div onClick={notice} className='w-6/12 sm:w-9/12'>
           <input type="text" placeholder="Type here" className="border border-solid border-black outline-none rounded-full h-10 w-full p-2 " />   
           </div>
           

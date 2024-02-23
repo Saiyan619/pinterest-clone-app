@@ -10,6 +10,7 @@ import CreatePostPage from './Pages/CreatePage/CreatePostPage';
 import PinDetails from './Pages/PinDetails/PinDetails';
 import EditProfile from './Pages/ProfilePage/EditProfile';
 import OtherUsersProfilePage from './Pages/ProfilePage/OtherUsersProfilePage';
+import Test12 from './Test12';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/profile' element={<ProfilePage />} />
           <Route path='/createPin' element={<CreatePostPage />} />
+          <Route path='/test' element={<Test12 />} />
           <Route path='/editProfile' element={<EditProfile />} />
           <Route path='/otheruserprofile/:id' element={<OtherUsersProfilePage />} />
             <Route path='/home' element={<PrivateRouter> <Homepage /> </PrivateRouter>} />
