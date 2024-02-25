@@ -60,8 +60,10 @@ const Navbar = () => {
             Profile
             <span className="badge">New</span>
           </Link> 
-        </li>
-        <li><a>Settings</a></li>
+            </li>
+            <Link to='/editProfile' >
+              <li><a>Profile Settings</a></li>
+              </Link>
             <li><Dialog logoutUser={logoutUser} /></li>
       </ul>
         </div>
