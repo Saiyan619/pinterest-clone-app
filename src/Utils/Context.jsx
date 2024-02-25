@@ -41,6 +41,7 @@ export const ContextProvider = ({ children }) => {
 
   // const notify = () => toast('Here is your toast.');
 
+  // The three function are for my user authentication (the functions from the names are self explanitory)
   const signUp = async (email, password) => {
     await setDoc(doc(db, "userSaved", email), {
       savedPins: [],
