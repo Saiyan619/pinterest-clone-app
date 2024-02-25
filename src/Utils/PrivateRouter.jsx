@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import { getUserAuthenticate } from './Context'
 
 const PrivateRouter = ({ children }) => {
-    const { currentUser } = getUserAuthenticate();
+    const { User } = getUserAuthenticate();
     const navigate = useNavigate();
-    // useEffect(() => {
-    //   if (!currentUser) {
-    //     return navigate('/');
-    //    }
-    // }, [])
+    useEffect(() => {
+      if (!User) {
+        return navigate('/');
+       }
+    }, [])
 
   return children
 
