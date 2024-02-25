@@ -20,12 +20,12 @@ function App() {
           <Routes>
           <Route path='/' element={<SignUp />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/profile' element={<ProfilePage />} />
-          <Route path='/createPin' element={<CreatePostPage />} />
-          <Route path='/editProfile' element={<EditProfile />} />
-          <Route path='/otheruserprofile/:id' element={<OtherUsersProfilePage />} />
+          <Route path='/profile' element={<PrivateRouter><ProfilePage /> </PrivateRouter>} />
+          <Route path='/createPin' element={<PrivateRouter> <CreatePostPage /> </PrivateRouter>} />
+          <Route path='/editProfile' element={<PrivateRouter><EditProfile /> </PrivateRouter>} />
+          <Route path='/otheruserprofile/:id' element={<PrivateRouter> <OtherUsersProfilePage /></PrivateRouter>} />
             <Route path='/home' element={<PrivateRouter> <Homepage /> </PrivateRouter>} />
-            <Route path='/home/pindetails/:id' element={<PinDetails />} />
+            <Route path='/home/pindetails/:id' element={<PrivateRouter><PinDetails /> </PrivateRouter>} />
         </Routes>
      
       </ContextProvider>
