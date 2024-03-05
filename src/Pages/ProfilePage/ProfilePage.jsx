@@ -9,8 +9,6 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const ProfilePage = () => {
   const { User, getCreatedUserPins, createdPins, getSavedPin, savedPin, fetchData, userDetails, removePin } = getUserAuthenticate();
-  const [profilePic, setprofilePic] = useState('')
-  const [IsLoading, setIsLoading] = useState(true)
   const [picChange, setpicChange] = useState(true)
   const [picChangeSec, setpicChangeSec] = useState(false)
  
@@ -73,7 +71,7 @@ const ProfilePage = () => {
         </div>
 
       <div className={`${picChangeSec ? 'block' : 'hidden'} flex justify-center flex-wrap gap-5 mt-12 p-4`}>
-          {savedPin.map((items, index) => {
+          {savedPin.map((items) => {
             return <div>
               <img className='w-60 rounded-xl object-cover' src={items.photo} alt="image" />
               <details className="dropdown">
