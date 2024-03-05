@@ -12,7 +12,6 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const PinDetails = () => {
   const {
-    User,
     getPostDetails,
     pinDetails,
     getSimilarPins,

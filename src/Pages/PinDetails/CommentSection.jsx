@@ -13,17 +13,11 @@ const CommentSection = ({pinDetails}) => {
     // console.log(pinDetails.userId)
 
     useEffect(() => {
-        // if (pinDetails.userId) {
             getMsgs()
-        // }
-        
-        
-        
     }, [pinDetails.userId]);
     const getMsgs = async () => {
         try {
             const commRef = query(collection(db, 'comments'), where('pinId', '==', pinDetails.userId), orderBy('createdAt', 'desc'))
-        // const querySnapshot = await getDocs(commRef);
 
          const unsubscribe = onSnapshot(commRef, (snapshot) => {
                 let commMess = []
