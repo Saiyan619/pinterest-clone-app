@@ -17,7 +17,7 @@ const Homepage = () => {
 
   return (
 
-    <div data-theme="light" className=''>
+    <div className=''>
       <Navbar />
       
       <div className='p-2'>
