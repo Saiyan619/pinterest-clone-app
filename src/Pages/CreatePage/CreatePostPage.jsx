@@ -9,7 +9,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 const CreatePostPage = () => {
-  const {User, postPin, spinner, getPins } = getUserAuthenticate()
+  const {User, postPin, spinner } = getUserAuthenticate()
   const [post, setPost] = useState('')
   const [imagePost, setImagePost] = useState('')
   const [selectedOption, setselectedOption] = useState('')
@@ -18,9 +18,6 @@ const CreatePostPage = () => {
     setselectedOption(e.target.value)
     console.log(selectedOption)
   }
-// useEffect(() => {
-//   getPins()
-// }, [])
 
 
   const postTextAndImage = async () => {

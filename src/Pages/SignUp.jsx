@@ -21,7 +21,7 @@ const SignUp = () => {
   const [UsernameInput, setUsernameInput] = useState("");
   const [EmailInput, setEmailInput] = useState("");
   const [passwordInput, setpasswordInput] = useState("");
-  const [photoUrl, setphotoUrl] = useState('')
+  // const [photoUrl, setphotoUrl] = useState('')
 
     function ModalClose() {
         setcloseModal(!closeModal)
@@ -59,7 +59,6 @@ const SignUp = () => {
       }
    
   };
-  // console.log(currentUser)
 
   return (
       <div className="relative">
@@ -88,7 +87,6 @@ const SignUp = () => {
               className="input input-bordered w-96 h-12 rounded-full max-w-xs bg-white"
             />
           </label>
-{/* <button onClick={getData} className="bg-white">test</button> */}
           <label className="form-control w-full max-w-xs">
             <div className="label">
               <span className="label-text text-white">Email</span>
@@ -102,13 +100,7 @@ const SignUp = () => {
               className="input input-bordered w-96 h-12 rounded-full max-w-xs bg-white"
             />
           </label>
-          {/*           
-              <label className="form-control w-full max-w-xs">
-  <div className="label">
-    <span className="label-text text-white">Select a Profile Picture</span>
-  </div>
-  <input type="file" className="file-input h-8 file-input-bordered w-full max-w-xs" />
-</label>  */}
+    
 
           <label className="form-control w-full max-w-xs">
             <div className="label">

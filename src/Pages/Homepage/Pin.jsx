@@ -12,10 +12,6 @@ const Pin = () => {
   const { allPosts, saveApin, toast, spinner } = getUserAuthenticate();
   const notify = () => toast("Here is your toast.");
   
-//  const timeoutId = setTimeout(() => {
-//       // Set state or perform additional actions after the timeout
-//       setMyState('Updated state after setTimeout');
-//     }, 2000);
   return (
     <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 2, 900: 3 }}>
       <Masonry>
