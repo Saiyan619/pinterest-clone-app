@@ -8,7 +8,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 const ProfilePage = () => {
-  const { User, getUserData, logOut, getCreatedUserPins, createdPins, getSavedPin, savedPin, fetchData, userDetails, removePin } = getUserAuthenticate();
+  const { User, getCreatedUserPins, createdPins, getSavedPin, savedPin, fetchData, userDetails, removePin } = getUserAuthenticate();
   const [profilePic, setprofilePic] = useState('')
   const [IsLoading, setIsLoading] = useState(true)
   const [picChange, setpicChange] = useState(true)
