@@ -5,7 +5,7 @@ import { getUserAuthenticate } from '../../Utils/Context';
 import Pin from './Pin';
 
 const Homepage = () => {
-  const { User, getPins, loader, setLoader } = getUserAuthenticate()
+  const {getPins, loader, setLoader } = getUserAuthenticate()
   useEffect(() => {
      const timeoutId = setTimeout(() => {
        setLoader(false);
