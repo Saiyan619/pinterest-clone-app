@@ -51,7 +51,7 @@ const SignUp = () => {
             navigate("/home");
         } catch (error) {
             setcloseModal(false)
-            console.error(error);
+            console.error(error); 
           }
       } else {
         setcloseModal(false)
