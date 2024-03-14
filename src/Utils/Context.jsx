@@ -141,6 +141,7 @@ export const ContextProvider = ({ children }) => {
           "Please Upload an image, note that the others might not be as necessary"
         );
     } catch (error) {
+      alert('Something went wrong, please try again')
       console.error(error);
     }
   };
